@@ -5,6 +5,19 @@ if (!requireAuth()) {
 }
 
 const user = getUser();
+const token = getAuthToken();
+
+console.log('Dashboard loaded');
+console.log('User:', user);
+console.log('Token exists:', !!token);
+console.log('User role:', user?.role);
+
+if (!user) {
+    console.error('No user data found, redirecting to login');
+    window.location.href = 'index.html';
+    throw new Error('No user data');
+}
+
 const isODManager = user.role === 'OD_MANAGER';
 const isEmployee = user.role === 'EMPLOYEE';
 

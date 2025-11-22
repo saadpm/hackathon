@@ -37,6 +37,12 @@ function requireAuth() {
 
 function getAuthHeaders() {
     const token = getAuthToken();
+    console.log('Getting auth headers, token:', token ? 'EXISTS' : 'MISSING');
+    
+    if (!token) {
+        console.error('No token found in localStorage!');
+    }
+    
     return {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'

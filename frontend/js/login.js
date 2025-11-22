@@ -22,10 +22,24 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         console.log('API response:', data);
         
         if (data.access_token) {
-            console.log('Login successful!');
+            console.log('Login successful! Token received');
             setAuthToken(data.access_token);
             setUser(data.user);
-            window.location.href = 'dashboard.html';
+            
+            // Verify token was saved
+            const savedToken = getAuthToken();
+            const savedUser = getUser();
+            console.log('Token saved:', !!savedToken);
+            console.log('User saved:', savedUser);
+            
+            if (savedToken && savedUser) {
+                console.log('Redirecting to dashboard...');
+                window.location.href = 'dashboard.html';
+            } else {
+                console.error('Failed to save token or user!');
+                errorDiv.textContent = 'Failed to save session. Please try again.';
+                errorDiv.classList.add('show');
+            }
         } else {
             console.log('Login failed:', data);
             errorDiv.textContent = data.detail || 'Login failed';

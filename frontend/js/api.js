@@ -149,6 +149,17 @@ const API = {
         const response = await fetch(`${CONFIG.API_BASE_URL}/reports/employees`, {
             headers: getAuthHeaders()
         });
+        
+        if (response.status === 401) {
+            console.error('Unauthorized - token may be invalid');
+            logout();
+            throw new Error('Unauthorized');
+        }
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         return await response.json();
     },
 
